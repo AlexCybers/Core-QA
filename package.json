@@ -1,0 +1,28 @@
+{
+  "name": "core-qa",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "report": "playwright show-report playwright-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexCybers/Core-QA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/AlexCybers/Core-QA/issues"
+  },
+  "homepage": "https://github.com/AlexCybers/Core-QA#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "typescript": "^6.0.3"
+  }
+}
