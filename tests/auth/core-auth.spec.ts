@@ -1,8 +1,7 @@
 import { test, BrowserContext, Page } from '@playwright/test';
-import { CoreLoginPage }     from '../pages/CoreLoginPage';
-import { CoreDashboardPage } from '../pages/CoreDashboardPage';
-import { CORE_USERS, CORE_ERRORS } from '../fixtures/core-users';
-
+import { CoreLoginPage }     from '../../pages/CoreLoginPage';
+import { CoreDashboardPage } from '../../pages/CoreDashboardPage';
+import { CORE_USERS, CORE_ERRORS } from '../../fixtures/core-users';
 test.describe('Core — Authentication', () => {
 
   let loginPage: CoreLoginPage;
