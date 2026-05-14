@@ -10,7 +10,10 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     storageState: undefined,
-  },
+    locale: 'en-GB',        // ← add this
+    timezoneId: 'Europe/London',  // ← add this
+},
+ 
   projects: [
     {
       name: 'chromium',
