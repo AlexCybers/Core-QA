@@ -1,4 +1,5 @@
-import { test, BrowserContext, Page } from '@playwright/test';
+import { test } from '../../fixtures/base';
+import { BrowserContext, Page } from '@playwright/test';
 import { CoreLoginPage }   from '../../pages/CoreLoginPage';
 import { CoreProfilePage } from '../../pages/CoreProfilePage';
 import { CORE_USERS }      from '../../fixtures/core-users';

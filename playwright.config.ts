@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 30_000,
   retries: 1,
-  workers: 2,
+  workers: 1,
   use: {
     baseURL: 'https://admin.micb.dev.devebs.net',
     headless: true,
@@ -13,6 +13,9 @@ export default defineConfig({
     storageState: undefined,
     locale: 'en-GB',
     timezoneId: 'Europe/London',
+    extraHTTPHeaders: {
+      'Accept-Language': 'en-GB,en;q=0.9',
+    },
   },
   projects: [
     {
