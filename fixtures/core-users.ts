@@ -15,6 +15,10 @@ export const CORE_USERS = {
     username: 'testalex',
     password: 'Account1!',
   },
+  noPermissions: {
+    username: 'anastasia.bumbac',
+    password: 'Test123!',
+  },
 } as const;
 
 export const CORE_ERRORS = {
