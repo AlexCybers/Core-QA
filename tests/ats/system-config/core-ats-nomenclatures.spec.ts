@@ -167,7 +167,7 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
     const nameEdited = `QA Location ${ts} Edited`;
 
     await test.step('Step 1 — Navigate to Location tab', async () => {
-      await page.goto('apps/ats/admin/jobs/locations');
+      await page.goto('/apps/ats/admin/jobs/locations');
       await page.waitForLoadState('networkidle');
     });
 
@@ -211,31 +211,34 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
   });
 
   // ─── TC-04 | Type of Employment ───────────────────────────────────────────
-  // Skipped — "Add employment type" button not functional in current environment
-  test.skip('TC-04 | ATS Nomenclatures — Type of Employment add/edit/delete', async ({ page }) => {
+  test('TC-04 | ATS Nomenclatures — Type of Employment add/edit/delete', async ({ page }) => {
     const name       = `QA Employment ${ts}`;
     const nameEdited = `QA Employment ${ts} Edited`;
 
     await test.step('Step 1 — Navigate to Type of Employment tab', async () => {
-      await page.goto('apps/ats/admin/jobs/employment-type');
+      await page.goto('/apps/ats/admin/jobs/employment-type');
       await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add employment type' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('.ant-modal-content input').first().fill(name);
-      await page.locator('button', { hasText: 'Add action' }).click();
+      const modal = page.locator('[role="dialog"]');
+      await expect(modal).toBeVisible({ timeout: 8000 });
+      await modal.locator('input').first().fill(name);
+      await modal.locator('button', { hasText: 'Add action' }).click();
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
+      await searchRecord(page, name);
       await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
-      const input = page.locator('.ant-modal-content input').first();
+      const editModal = page.locator('[role="dialog"]');
+      await expect(editModal).toBeVisible({ timeout: 5000 });
+      const input = editModal.locator('input').first();
       await input.clear();
       await input.fill(nameEdited);
       await clickSave(page);
@@ -243,6 +246,7 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
+      await searchRecord(page, nameEdited);
       await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
     });
 
@@ -253,6 +257,7 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
     });
 
     await test.step('Step 7 — Verify record is gone', async () => {
+      await searchRecord(page, nameEdited);
       await expect(page.locator('td', { hasText: nameEdited })).not.toBeVisible({ timeout: 5000 });
     });
   });
@@ -307,14 +312,11 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
   });
 
   // ─── TC-06 | Currency ─────────────────────────────────────────────────────
-  // Add button label is unknown — scope to active tab panel to avoid hitting
-  // other buttons on the page.  Modal inputs are scoped to .ant-modal-content.
   test('TC-06 | ATS Nomenclatures — Currency add/edit/delete', async ({ page }) => {
     const name         = `QA Currency ${ts}`;
     const nameEdited   = `QA Currency ${ts} Edited`;
     // Code must be unique per run — derive 3 uppercase chars from the timestamp
     const currencyCode = ts.toString(36).slice(-3).toUpperCase(); // e.g. "X4K"
-
 
     await test.step('Step 1 — Navigate to Currency tab', async () => {
       // URL confirmed from Ant Design panel ID: rc-tabs-0-panel-/admin/currency
@@ -370,7 +372,6 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
   });
 
   // ─── TC-07 | Letter template ──────────────────────────────────────────────
-  // Same pattern as TC-06 — scope Add button to active tab panel, inputs to modal.
   test('TC-07 | ATS Nomenclatures — Letter template add/edit/delete', async ({ page }) => {
     const name       = `QA Letter ${ts}`;
     const nameEdited = `QA Letter ${ts} Edited`;
@@ -390,7 +391,6 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await expect(modal.locator('button', { hasText: 'OK' })).toBeVisible({ timeout: 8000 });
 
       // Fill all three required fields: Name, Subject, Message body
-      // Use placeholder fallback for each so the order doesn't matter
       const nameInput = modal.locator('input[placeholder*="name" i], input[placeholder*="title" i], input').nth(0);
       await nameInput.fill(name);
 
