@@ -39,10 +39,11 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
   async function searchRecord(page: Page, name: string) {
     const searchInput = page.locator('input[placeholder="Search"]');
+    await expect(searchInput).toBeVisible({ timeout: 5000 });
     await searchInput.clear();
     await searchInput.fill(name);
-    // Wait for the table to re-render after filtering
-    await page.waitForTimeout(800);
+    // Wait for table to re-render after filtering
+    await page.waitForTimeout(1500);
   }
 
   // ─── TC-01 | Recruitment template ────────────────────────────────────────
@@ -59,8 +60,8 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add template' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter template title"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter template title"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter template title"]').pressSequentially(name);
 
       // A "screening" stage is required — click "Add stage" then select "Screening CV"
       const addStageBtn = page.locator('button', { hasText: 'Add stage' });
@@ -76,27 +77,28 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await page.waitForTimeout(500);
 
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       // Search first — table is paginated, new record may not be on page 1
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter template title"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -124,29 +126,30 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add position' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter position name"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter position name"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter position name"]').pressSequentially(name);
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter position name"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -173,29 +176,30 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add location' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter location name"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter location name"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter location name"]').pressSequentially(name);
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter location name"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -224,14 +228,15 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await page.locator('button', { hasText: 'Add employment type' }).click();
       const modal = page.locator('[role="dialog"]');
       await expect(modal).toBeVisible({ timeout: 8000 });
-      await modal.locator('input').first().fill(name);
+      await modal.locator('input').first().pressSequentially(name);
       await modal.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(modal).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
@@ -240,14 +245,14 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await expect(editModal).toBeVisible({ timeout: 5000 });
       const input = editModal.locator('input').first();
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -274,29 +279,30 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add application source' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter application source"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter application source"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter application source"]').pressSequentially(name);
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter application source"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -331,15 +337,16 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       const modal = page.locator('[role="dialog"]');
       await expect(modal).toBeVisible({ timeout: 8000 });
       await expect(modal.locator('button', { hasText: 'OK' })).toBeVisible({ timeout: 8000 });
-      await modal.locator('input').nth(0).fill(name);
-      await modal.locator('input').nth(1).fill(currencyCode);
+      await modal.locator('input').nth(0).pressSequentially(name);
+      await modal.locator('input').nth(1).pressSequentially(currencyCode);
       await modal.locator('button', { hasText: 'OK' }).click();
-      await page.waitForTimeout(1000);
+      await expect(modal).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
@@ -349,14 +356,14 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await expect(editModal).toBeVisible({ timeout: 5000 });
       const inputs = editModal.locator('input').filter({ visible: true });
       await inputs.nth(0).clear();
-      await inputs.nth(0).fill(nameEdited);
+      await inputs.nth(0).pressSequentially(nameEdited);
       await editModal.locator('button', { hasText: 'OK' }).click();
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -392,10 +399,10 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
       // Fill all three required fields: Name, Subject, Message body
       const nameInput = modal.locator('input[placeholder*="name" i], input[placeholder*="title" i], input').nth(0);
-      await nameInput.fill(name);
+      await nameInput.pressSequentially(name);
 
       const subjectInput = modal.locator('input[placeholder*="subject" i], input').nth(1);
-      await subjectInput.fill('QA Test Subject');
+      await subjectInput.pressSequentially('QA Test Subject');
 
       // Rich-text message body (contenteditable)
       const messageBody = modal.locator('[contenteditable="true"]').first();
@@ -403,12 +410,13 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await messageBody.fill('QA Test Message');
 
       await modal.locator('button', { hasText: 'OK' }).click();
-      await page.waitForTimeout(1000);
+      await expect(modal).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
@@ -418,14 +426,14 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await expect(editModal).toBeVisible({ timeout: 5000 });
       const nameInput = editModal.locator('input[placeholder*="name" i], input[placeholder*="title" i], input').nth(0);
       await nameInput.clear();
-      await nameInput.fill(nameEdited);
+      await nameInput.pressSequentially(nameEdited);
       await editModal.locator('button', { hasText: 'OK' }).click();
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -452,29 +460,30 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add application withdrawal reason' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter application withdrawal reason title"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter application withdrawal reason title"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter application withdrawal reason title"]').pressSequentially(name);
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter application withdrawal reason title"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -501,29 +510,30 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
 
     await test.step('Step 2 — Add record', async () => {
       await page.locator('button', { hasText: 'Add offer refusal reason' }).click();
-      await page.waitForTimeout(500);
-      await page.locator('input[placeholder="Enter offer refusal reason title"]').fill(name);
+      await expect(page.locator('input[placeholder="Enter offer refusal reason title"]')).toBeVisible({ timeout: 8000 });
+      await page.locator('input[placeholder="Enter offer refusal reason title"]').pressSequentially(name);
       await page.locator('button', { hasText: 'Add action' }).click();
-      await page.waitForTimeout(1000);
+      await expect(page.locator('[role="dialog"]')).not.toBeVisible({ timeout: 8000 });
+      await page.waitForLoadState('networkidle');
     });
 
     await test.step('Step 3 — Verify record appears', async () => {
       await searchRecord(page, name);
-      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: name }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 4 — Edit record', async () => {
       await openRowMenu(page, name, 'edit');
       const input = page.locator('input[placeholder="Enter offer refusal reason title"]');
       await input.clear();
-      await input.fill(nameEdited);
+      await input.pressSequentially(nameEdited);
       await clickSave(page);
       await page.waitForTimeout(1000);
     });
 
     await test.step('Step 5 — Verify modified name', async () => {
       await searchRecord(page, nameEdited);
-      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 5000 });
+      await expect(page.locator('td', { hasText: nameEdited }).first()).toBeVisible({ timeout: 8000 });
     });
 
     await test.step('Step 6 — Delete record', async () => {
@@ -537,5 +547,6 @@ test.describe('ATS — System Configuration Nomenclatures (CRUD)', () => {
       await expect(page.locator('td', { hasText: nameEdited })).not.toBeVisible({ timeout: 5000 });
     });
   });
+
 
 });
